@@ -1,0 +1,68 @@
+﻿syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
+
+option csharp_namespace = "BookingServiceProvider";
+
+service BookingServiceContract{
+	rpc GetAllBookings(google.protobuf.Empty) returns (ReplyGetAllBookings);
+	rpc GetBooking(RequestGetBooking) returns (ReplyGetBooking);
+	rpc CreateBooking(RequestCreateBooking) returns (ReplyCreateBooking);
+	rpc DeleteBooking(RequestDeleteBooking) returns (ReplyDeleteBooking);
+}
+
+message RequestCreateBooking{
+	string userid = 1;
+	string eventid = 2;
+	int32 ticketamount = 3;
+}
+
+message ReplyCreateBooking{
+	bool isSuccess = 1;
+	string message = 2;
+}
+
+message RequestDeleteBooking{
+		string id = 1;
+}
+
+message ReplyDeleteBooking{
+	bool isSuccess = 1;
+	string message = 2;
+}
+
+message RequestGetBooking{
+	string id = 1;
+}
+
+message ReplyGetBooking{
+	bool isSuccess = 1;
+	string message = 2;
+	Booking booking = 3;
+}
+message Booking{
+	string bookingid = 1;
+	string userid = 2;
+	string eventid = 3;
+	string firstname = 4;
+	string lastname = 5;
+	string email = 6;
+	string phone = 7;
+	string address = 8;
+	string postalcode = 9;
+	string city = 10;
+	string eventname = 11;	
+	double ticketamount = 12;
+	double ticketprice = 13;
+	double totalprice = 14;
+	google.protobuf.Timestamp eventdate = 15;
+	google.protobuf.Timestamp created = 16;
+}
+
+message ReplyGetAllBookings{
+	bool isSuccess = 1;
+	string message = 2;
+	repeated Booking bookings = 3;
+}
+

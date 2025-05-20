@@ -1,0 +1,76 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "EventServiceProvider";
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/wrappers.proto";
+
+
+package event;
+
+service EventContract {
+  rpc GetEvents (google.protobuf.Empty) returns (GetAllEventsReply);
+  rpc GetEventById (GetEventByIdRequest) returns (GetEventReply);
+  rpc AddEvent (Event) returns (EventReply);
+  rpc DeleteEvent (DeleteEventRequest) returns (EventReply);
+  rpc UpdateEvent (Event) returns (EventReply);
+}
+
+service StatusContract{
+  rpc GetStatuses (google.protobuf.Empty) returns (GetAllStatusesReply);
+}
+service CategoryContract{
+  rpc GetCategories (google.protobuf.Empty) returns (GetAllCategoriesReply);
+}
+
+message GetEventByIdRequest {
+  string EventId = 1;
+}
+
+message DeleteEventRequest {
+    string EventId = 1;
+}
+
+message Event {
+	string EventId = 1;
+    string EventTitle = 2;
+    string Description = 3;
+    google.protobuf.Timestamp Date = 4; 
+    int32 Price = 5; 
+    string LocationId = 6;
+    int32 TotalTickets = 7;
+    int32 TicketsSold = 8; 
+    Status Status = 9; 
+    Category Category = 10;
+}
+
+message Status {
+    string StatusId = 1;
+    string StatusName = 2;
+}
+message Category {
+    string CategoryId = 1;
+    string CategoryName = 2;
+}
+
+message GetAllEventsReply {
+  google.protobuf.StringValue Exception = 1;
+  repeated Event Events = 2;
+}
+message GetEventReply {
+  int32 Status_code = 1;
+  Event Event = 2;
+}
+message EventReply {
+  int32 Status_code = 1;
+  string Message = 2;
+}
+
+message GetAllStatusesReply {
+  repeated Status Statuses = 1;
+}
+
+message GetAllCategoriesReply {
+  repeated Category Categories = 1;
+}
