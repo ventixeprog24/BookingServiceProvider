@@ -7,6 +7,7 @@ option csharp_namespace = "BookingServiceProvider";
 
 service BookingServiceContract{
 	rpc GetAllBookings(google.protobuf.Empty) returns (ReplyGetAllBookings);
+	rpc GetAllBookingsByUserId(RequestGetAllBookingsByUserId) returns (ReplyGetAllBookings);
 	rpc GetBooking(RequestGetBooking) returns (ReplyGetBooking);
 	rpc CreateBooking(RequestCreateBooking) returns (ReplyCreateBooking);
 	rpc DeleteBooking(RequestDeleteBooking) returns (ReplyDeleteBooking);
@@ -66,3 +67,6 @@ message ReplyGetAllBookings{
 	repeated Booking bookings = 3;
 }
 
+message RequestGetAllBookingsByUserId{
+	string userid = 1;
+}
