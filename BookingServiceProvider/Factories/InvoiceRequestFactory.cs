@@ -17,6 +17,7 @@ namespace BookingServiceProvider.Factories
                 LastName = user.LastName,
                 PhoneNumber = user.PhoneNumber,
                 Address = user.Address,
+                Email = user.Email,
                 PostalCode = user.PostalCode,
                 City = user.City,
                 EventName = currentEvent.EventTitle,

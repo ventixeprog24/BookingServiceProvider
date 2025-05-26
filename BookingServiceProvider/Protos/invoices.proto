@@ -8,33 +8,34 @@ import "google/protobuf/empty.proto";
 package invoices;
 
 service InvoiceServiceContract {
-	rpc CreateInvoice (RequestCreateInvoice) returns (CreateInvoiceReply);
-	rpc GetInvoiceByInvoiceId (RequestInvoiceById) returns (RequestInvoiceByIdReply);
-	rpc GetInvoiceByBookingId (RequestInvoiceById) returns (RequestInvoiceByIdReply);
-	rpc GetAllInvoices (google.protobuf.Empty) returns (AllInvoicesReply);
-	rpc UpdateInvoice (UpdatePaymentStatusRequest) returns (UpdateInvoiceReply);
-	rpc DeleteInvoice (DeleteInvoiceByIdRequest) returns (DeleteInvoiceReply);
+  rpc CreateInvoice (RequestCreateInvoice) returns (CreateInvoiceReply);
+  rpc GetInvoiceByInvoiceId (RequestInvoiceById) returns (RequestInvoiceByIdReply);
+  rpc GetInvoiceByBookingId (RequestInvoiceById) returns (RequestInvoiceByIdReply);
+  rpc GetAllInvoices (google.protobuf.Empty) returns (AllInvoicesReply);
+  rpc UpdateInvoice (UpdatePaymentStatusRequest) returns (UpdateInvoiceReply);
+  rpc DeleteInvoice (DeleteInvoiceByIdRequest) returns (DeleteInvoiceReply);
 }
 
 message Invoice {
 	string invoice_id = 1;
 	string booking_id = 2;
-	string first_name = 3;
+    string first_name = 3;
 	string last_name = 4;
-	string phone_number = 5;
-	string address = 6;
-	string postal_code = 7;
-	string city = 8;
-	string event_name = 9;
-	google.protobuf.Timestamp event_date = 10;
-	double ticket_amount = 11;
-	double ticket_price = 12;
-	double total_price = 13;
-	google.protobuf.Timestamp booking_date = 14;
-	google.protobuf.Timestamp created_date = 15;
-	google.protobuf.Timestamp due_date = 16;
-	bool paid = 17;
-	bool deleted = 18;
+    string phone_number = 5;
+	string email = 6;
+	string address = 7;
+	string postal_code = 8;
+	string city = 9;
+	string event_name = 10;
+    google.protobuf.Timestamp event_date = 11;
+    double ticket_amount = 12;
+	double ticket_price = 13;
+    double total_price = 14;
+    google.protobuf.Timestamp booking_date = 15;
+	google.protobuf.Timestamp created_date = 16;
+    google.protobuf.Timestamp due_date = 17;
+	bool paid = 18;
+	bool deleted = 19;
 }
 
 message AllInvoicesReply {
@@ -46,15 +47,16 @@ message RequestCreateInvoice {
 	string booking_id = 1;
 	string first_name = 2;
 	string last_name = 3;
-	string phone_number = 4;
-	string address = 5;
-	string postal_code = 6;
-	string city = 7;
-	string event_name = 8;
-	google.protobuf.Timestamp event_date = 9;
-	double ticket_amount = 10;
-	double ticket_price = 11;
-	google.protobuf.Timestamp booking_date = 12;
+    string phone_number = 4;
+	string email = 5;
+	string address = 6;
+	string postal_code = 7;
+	string city = 8;
+	string event_name = 9;
+	google.protobuf.Timestamp event_date = 10;
+	double ticket_amount = 11;
+	double ticket_price = 12;
+    google.protobuf.Timestamp booking_date = 13;
 }
 
 message CreateInvoiceReply {
