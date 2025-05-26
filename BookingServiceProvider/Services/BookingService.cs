@@ -57,9 +57,11 @@ namespace BookingServiceProvider.Services
                 return _replyFactory.FailedGetAllReply("No bookings found in database.");
             }
 
+            // GET USERS AND PUT THEM IN DICTIONARY TO AVOID MULTIPLE CALLS IN FORLOOP
             var users = await _userClient.GetAllUserProfilesAsync(new Empty());
             var userDict = users.AllUserProfiles.ToDictionary(u => u.UserId);
 
+            // GET EVENTS AND PUT THEM IN DICTIONARY TO AVOID MULTIPLE CALLS IN FORLOOP
             var events = _eventClient.GetEvents(new Empty());
             var eventDict = events.Events.ToDictionary(e => e.EventId);
 
@@ -71,6 +73,56 @@ namespace BookingServiceProvider.Services
                 var currentEvent = eventDict[booking.EventId];
 
                 var bookingReply = _replyFactory.SuccessGetAllReply( booking, user, currentEvent );
+                bookingsReply.Bookings.Add(bookingReply);
+            }
+            return bookingsReply;
+        }
+
+        // GET ALL BOOKINGS BY USER ID
+        public override async Task<ReplyGetAllBookings> GetAllBookingsByUserId(RequestGetAllBookingsByUserId request, ServerCallContext context)
+        {
+
+            if (string.IsNullOrEmpty(request.Userid))
+            {
+                return _replyFactory.FailedGetAllReply("request.UserId is null or empty.");
+            }
+
+            // GET ALL BOOKINGS(CACHED OR FROM DATABASE)
+            if (!_cache.TryGetValue(_cachedBookingsKey, out IEnumerable<BookingEntity>? cachedBookings))
+            {
+                cachedBookings = await GetSetBookingsCacheAsync();
+            }
+
+            if (cachedBookings == null || !cachedBookings.Any())
+            {
+                _logger.LogError("Failed to retrieve bookings.");
+                return _replyFactory.FailedGetAllReply("No bookings found in database.");
+            }
+
+            var userBookings = cachedBookings.Where(booking => booking.UserId == request.Userid).ToList();
+
+            if (!userBookings.Any())
+            {
+                _logger.LogError($"No bookings found for user with UserId: {request.Userid}.");
+                return _replyFactory.FailedGetAllReply($"No bookings found for user with UserId: {request.Userid}.");
+            }
+
+            // GET USERS AND PUT THEM IN DICTIONARY TO AVOID MULTIPLE CALLS IN FORLOOP
+            var users = await _userClient.GetAllUserProfilesAsync(new Empty());
+            var userDict = users.AllUserProfiles.ToDictionary(u => u.UserId);
+
+            // GET EVENTS AND PUT THEM IN DICTIONARY TO AVOID MULTIPLE CALLS IN FORLOOP
+            var events = _eventClient.GetEvents(new Empty());
+            var eventDict = events.Events.ToDictionary(e => e.EventId);
+
+            var bookingsReply = new ReplyGetAllBookings { IsSuccess = true, Message = "User bookings retrieved successfully." };
+
+            foreach (var booking in userBookings)
+            {
+                var user = userDict[booking.UserId];
+                var currentEvent = eventDict[booking.EventId];
+
+                var bookingReply = _replyFactory.SuccessGetAllReply(booking, user, currentEvent);
                 bookingsReply.Bookings.Add(bookingReply);
             }
             return bookingsReply;
