@@ -33,7 +33,7 @@ namespace BookingServiceProvider.Services
                 return Enumerable.Empty<BookingEntity>();
             }
 
-            if (bookings.Any())
+            if (!bookings.Any())
             {
                 return Enumerable.Empty<BookingEntity>();
             }
@@ -49,7 +49,6 @@ namespace BookingServiceProvider.Services
             if (!_cache.TryGetValue(_cachedBookingsKey, out IEnumerable<BookingEntity>? cachedBookings))
             {
                 cachedBookings = await GetSetBookingsCacheAsync();
-                _logger.LogInformation("Bookings retieved from database.");
             }
 
             if (cachedBookings == null || !cachedBookings.Any())
