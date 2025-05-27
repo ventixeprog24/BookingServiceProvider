@@ -54,9 +54,9 @@ message Booking{
 	string postalcode = 9;
 	string city = 10;
 	string eventname = 11;	
-	double ticketamount = 12;
+	int32 ticketamount = 12;
 	int32 ticketprice = 13;
-	double totalprice = 14;
+	int32 totalprice = 14;
 	google.protobuf.Timestamp eventdate = 15;
 	google.protobuf.Timestamp created = 16;
 }
