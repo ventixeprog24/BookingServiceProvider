@@ -38,6 +38,27 @@ else
     Console.WriteLine($"Error retrieving bookings: {getAllReply.Message}");
 }
 
+// Get bookings by user ID
+var getUserBookingsRequest = new RequestGetAllBookingsByUserId
+{
+    Userid = "user-123"
+};
+
+var userBookingsReply = await bookingClient.GetAllBookingsByUserIdAsync(getUserBookingsRequest);
+
+if (userBookingsReply.IsSuccess)
+{
+    Console.WriteLine($"Bookings for user {getUserBookingsRequest.Userid}:");
+    foreach (var booking in userBookingsReply.Bookings)
+    {
+        Console.WriteLine($"Booking ID: {booking.BookingId}, Event: {booking.Event.Title}, Tickets: {booking.TicketAmount}");
+    }
+}
+else
+{
+    Console.WriteLine($"Failed to retrieve bookings for user {getUserBookingsRequest.Userid}: {userBookingsReply.Message}");
+}
+
 // Get booking
 var getRequest = new RequestGetBooking
 {
@@ -55,7 +76,7 @@ else
     Console.WriteLine($"Failed to retrieve booking: {getReply.Message}");
 }
 
-// Example: Create a new booking
+// Create a new booking
 var createRequest = new RequestCreateBooking
 {
     Userid = "user-123",
