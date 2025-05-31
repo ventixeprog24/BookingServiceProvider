@@ -62,7 +62,7 @@ namespace BookingServiceProvider.Services
             var userDict = users.AllUserProfiles.ToDictionary(u => u.UserId);
 
             // GET EVENTS AND PUT THEM IN DICTIONARY TO AVOID MULTIPLE CALLS IN FORLOOP
-            var events = _eventClient.GetEvents(new Empty());
+            var events = await _eventClient.GetEventsAsync(new Empty());
             var eventDict = events.Events.ToDictionary(e => e.EventId);
 
             var bookingsReply = new ReplyGetAllBookings { IsSuccess = true, Message = "Bookings retrieved successfully." };

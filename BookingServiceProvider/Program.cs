@@ -22,7 +22,7 @@ builder.Services.AddSingleton<InvoiceRequestFactory>();
 builder.Services.AddLogging();
 
 builder.Services.AddDbContext<DataContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("AzureDbConnection"))
+    options.UseSqlServer(builder.Configuration.GetConnectionString("BookingDbConnection"))
 );
 
 builder.Services.AddGrpcClient<UserProfileServiceClient>(options =>
