@@ -91,3 +91,6 @@ else
     Console.WriteLine($"Failed to delete booking: {deleteReply.Message}");
 }
 ```
+
+![Picture of Sequence Diagram](bookingserviceprovider-sequence-diagram.png)
+
